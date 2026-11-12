@@ -1,9 +1,26 @@
+# Secrets
+.env
+.env.*
+
+# Runtime SQLite database (keep data/sample_policy.md tracked)
+data/*.db
+data/*.db-journal
+data/*.sqlite3
+
+# Python & testing artifacts
 __pycache__/
 *.py[cod]
-.venv/
-venv/
-.env
-*.db
-*.sqlite3
+*$py.class
 .pytest_cache/
 .gradio/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
