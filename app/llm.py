@@ -5,23 +5,40 @@ from langchain_core.tools import BaseTool
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_groq import ChatGroq
 
-load_dotenv()
+load_dotenv(override=True)
 
 
 def get_llm(tools: list[BaseTool] | None = None) -> BaseChatModel:
-    primary = ChatGroq(
-        model="llama-3.3-70b-versatile",
-        temperature=0.0,
-        max_retries=1,
-    )
-    fallback = ChatGoogleGenerativeAI(
-        model="gemini-2.5-flash",
-        temperature=0.0,
-        max_retries=1,
-    )
+    models: list[BaseChatModel] = [
+        ChatGroq(
+            model="openai/gpt-oss-120b",
+            api_key=os.getenv("GROQ_API_KEY"),
+            temperature=0.0,
+            reasoning_effort="low",
+            max_retries=1,
+        ),
+        ChatGroq(
+            model="openai/gpt-oss-20b",
+            api_key=os.getenv("GROQ_API_KEY"),
+            temperature=0.0,
+            reasoning_effort="low",
+            max_retries=1,
+        ),
+        ChatGroq(
+            model="qwen/qwen3.8-27b",
+            api_key=os.getenv("GROQ_API_KEY"),
+            temperature=0.0,
+            max_retries=1,
+        ),
+        ChatGoogleGenerativeAI(
+            model="gemini-3-flash-preview",
+            google_api_key=os.getenv("GEMINI_API_KEY"),
+            temperature=0.0,
+            max_retries=1,
+        ),
+    ]
 
     if tools:
-        primary = primary.bind_tools(tools)
-        fallback = fallback.bind_tools(tools)
+        models = [m.bind_tools(tools) for m in models]
 
-    return primary.with_fallbacks([fallback])
+    return models[0].with_fallbacks(models[1:])
