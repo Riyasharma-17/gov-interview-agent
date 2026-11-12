@@ -1,0 +1,9 @@
+
+langgraph>=0.2.60
+langchain-core>=0.3.30
+langchain-groq>=0.2.3
+langchain-google-genai>=2.0.9
+pydantic>=2.10.0
+python-dotenv>=1.0.1
+gradio>=5.12.0
+pytest>=8.3.0
