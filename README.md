@@ -27,17 +27,17 @@ This project enforces a strict boundary:
 ## Screenshots
 
 ### 1. Intake Interview & Live Conflict Detection
-The agent interviews the user, extracts structured field provenance (`value`, `source`, `confidence`) into `Live SystemProfile`, and flags policy violations (`OpenAI GPT-4o` and `customer PII`)—setting `Verdict: No` and saving the submission (`c58076c3`) as `pending_review`[cite: 11].
+The agent interviews the user, extracts structured field provenance (`value`, `source`, `confidence`) into `Live SystemProfile`, and flags policy violations (`OpenAI GPT-4o` and `customer PII`)—setting `Verdict: No` and saving the submission (`c58076c3`) as `pending_review`.
 
 ![Intake Interview](intake-interview.png)
 
 ### 2. Human Review Queue & Stored Profile Inspection
-In the Review Queue tab, a compliance reviewer (`lead_auditor`) inspects all queued submissions (`pending_review` vs. `draft`), loads the stored JSON profile for `c58076c3`, and enters a mandatory audit note to escalate the system[cite: 12].
+In the Review Queue tab, a compliance reviewer (`lead_auditor`) inspects all queued submissions (`pending_review` vs. `draft`), loads the stored JSON profile for `c58076c3`, and enters a mandatory audit note to escalate the system.
 
 ![Review Queue](review&audit1.png)
 
 ### 3. Decision Recording & Append-Only Audit Log
-Recording the review transitions `c58076c3` to `escalated` and appends a tamper-protected entry to the `Append-Only Audit Log` (`actor`, `action`, `from -> to` status, `note`, and UTC timestamp)[cite: 13].
+Recording the review transitions `c58076c3` to `escalated` and appends a tamper-protected entry to the `Append-Only Audit Log` (`actor`, `action`, `from -> to` status, `note`, and UTC timestamp).
 
 ![Audit Log](review&audit2.png)
 
@@ -103,6 +103,8 @@ Benchmarked against 5 realistic intake scenarios (`evals/cases.json`)—3 contai
 | `conflict_pii_and_broad_access` | Customer PII + `all-company` access | `No` | `No` | `['approved_users', 'data_types']` | `['approved_users', 'data_types']` | Pass |
 | `conflict_medical_data` | Employee medical records | `No` | `No` | `['data_types']` | `['data_types']` | Pass |
 
+5 hand-written cases, so this shows the pipeline works, not that it generalizes.
+
 **Summary Metrics:**
 
 * **Conflict detection rate (recall):** `3/3 (100.0%)`
@@ -142,10 +144,9 @@ gov-interview-agent/
 ## Run Locally
 
 ```bash
-git clone <your-repo-url>
+git clone [https://github.com/Riyasharma-17/gov-interview-agent](https://github.com/Riyasharma-17/gov-interview-agent)
 cd gov-interview-agent
 pip install -r requirements.txt
-
 ```
 
 Create a `.env` file in the root directory:
@@ -153,7 +154,6 @@ Create a `.env` file in the root directory:
 ```env
 GROQ_API_KEY=your_groq_key
 GEMINI_API_KEY=your_gemini_key
-
 ```
 
 ```bash
@@ -165,8 +165,7 @@ python -m evals.run_eval
 
 # Launch Gradio console
 python -m app.ui
-# -> [http://127.0.0.1:7860](http://127.0.0.1:7860)
-
+# opens at [http://127.0.0.1:7860](http://127.0.0.1:7860)
 ```
 
 ---
@@ -192,5 +191,4 @@ python -m app.ui
 * **Free-tier quota engineering:** Per-minute token limits on reasoning models require compact prompts, low reasoning effort, and multi-model fallback chains with identical bound tool schemas.
 * **Database-enforced invariants:** Putting `BEFORE UPDATE/DELETE` triggers and state-transition checks in SQLite guarantees audit integrity regardless of which UI or script writes to the store.
 
-```
 
