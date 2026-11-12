@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "id": "clean_internal_rag",
+    "prompt": "We built an internal engineering FAQ assistant using Google Gemini 2.5 Flash. It only indexes public engineering markdown docs. Owner is Arjun Mehta (Engineering Manager), approved for the Backend Team.",
+    "expected_conflict_fields": [],
+    "expected_verdict": "Yes"
+  },
+  {
+    "id": "clean_claude_triage",
+    "prompt": "Our incident triage helper runs on enterprise Anthropic Claude. It reads anonymized system logs, is owned by Kavita Rao (Director of SRE), and only the SRE Team has access.",
+    "expected_conflict_fields": [],
+    "expected_verdict": "Yes"
+  },
+  {
+    "id": "conflict_unapproved_model",
+    "prompt": "We deployed a code review bot powered by OpenAI GPT-4o. It reads internal repo diffs, owned by Dev Kapoor (Engineering Manager), used by the Core Platform Team.",
+    "expected_conflict_fields": ["third_party_model"],
+    "expected_verdict": "No"
+  },
+  {
+    "id": "conflict_pii_and_broad_access",
+    "prompt": "Marketing built a campaign generator using Anthropic Claude that processes customer PII and email lists. Owner is Neha Sharma (Engineering Manager), and it is open to all-company employees.",
+    "expected_conflict_fields": ["data_types", "approved_users"],
+    "expected_verdict": "No"
+  },
+  {
+    "id": "conflict_medical_data",
+    "prompt": "We have a benefits helper on Google Gemini that summarizes employee medical records. Owner is Rohan Verma (Director of People Ops), restricted to HR Operations Team.",
+    "expected_conflict_fields": ["data_types"],
+    "expected_verdict": "No"
+  }
+]
